@@ -5,7 +5,6 @@ const title = ref('')
 const description = ref('')
 const deadline = ref('')
 const showWarning = ref(false)
-
 const emit = defineEmits(['add'])
 
 const onAdd = () => {
@@ -26,18 +25,50 @@ const onAdd = () => {
   deadline.value = ''
   showWarning.value = false
 }
+
+// Ограничиваем ввод года 4 цифрами
+const limitYearInput = (event) => {
+  const value = event.target.value
+  if (value.length > 4 && event.inputType === 'insertText') {
+    event.target.value = value.slice(0, 4)
+  }
+}
 </script>
 
 <template>
   <div class="add-task">
-    <div class="input-row">
-      <input v-model="title" placeholder="Добавить новое дело" @keyup.enter="onAdd" />
-      <input v-model="description" placeholder="Описание" />
-      <input v-model="deadline" type="datetime-local" class="deadline" />
-      <button @click="onAdd" class="btn">Добавить</button>
+    <div class="form-container">
+      <div class="form-row">
+        <input
+            v-model="title"
+            placeholder="Название задачи"
+            @keyup.enter="onAdd"
+            class="task-input"
+        />
+      </div>
+      <div class="form-row">
+        <textarea
+            v-model="description"
+            placeholder="Описание задачи"
+            class="task-input description-input"
+            rows="2"
+        ></textarea>
+      </div>
+      <div class="form-row deadline-row">
+        <input
+            v-model="deadline"
+            type="datetime-local"
+            class="task-input deadline-input"
+            @input="limitYearInput"
+        />
+        <button @click="onAdd" class="add-btn">Добавить</button>
+      </div>
     </div>
-    <div v-if="showWarning" class="warning">
-      Пожалуйста, заполните название и укажите дедлайн.
+    <div v-if="showWarning" class="warning-container">
+      <div class="warning-icon">⚠️</div>
+      <div class="warning-message">
+        Пожалуйста, заполните название задачи и укажите дедлайн
+      </div>
     </div>
   </div>
 </template>
@@ -45,56 +76,104 @@ const onAdd = () => {
 <style scoped>
 .add-task {
   margin-bottom: 16px;
+  width: 100%;
 }
 
-.input-row {
+.form-container {
   display: flex;
-  gap: 8px;
-  align-items: center;
+  flex-direction: column;
+  gap: 12px;
   margin-bottom: 8px;
 }
 
-input[type="text"], input[type="datetime-local"] {
+.form-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.task-input {
   flex: 1;
-  padding: 12px;
+  padding: 12px 16px;
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.15);
   background: rgba(255, 255, 255, 0.05);
-  color: #fff;
+  color: white;
+  font-family: 'Guidy', sans-serif;
   font-weight: 500;
   transition: all 0.2s ease;
 }
 
-input[type="text"]::placeholder {
+.task-input::placeholder {
   color: rgba(255, 255, 255, 0.5);
 }
 
-input[type="text"]:focus, input[type="datetime-local"]:focus {
+.task-input:focus {
   outline: none;
   border-color: #7c5cff;
   background: rgba(124, 92, 255, 0.1);
 }
 
-.btn {
+.description-input {
+  resize: vertical;
+  min-height: 60px;
+  padding: 12px 16px;
+  line-height: 1.5;
+}
+
+.deadline-row {
+  display: flex;
+  gap: 8px;
+}
+
+.deadline-input {
+  flex: 1;
+  min-width: 200px;
+}
+
+.add-btn {
   background: linear-gradient(90deg, #09bea9, #6bffd3);
   border: none;
-  padding: 12px 18px;
+  padding: 12px 24px;
   border-radius: 12px;
   color: white;
+  font-family: 'Guidy', sans-serif;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
-.btn:hover {
-  transform: scale(1.05);
+.add-btn:hover {
+  transform: scale(1.02);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
 }
 
-.warning {
+.warning-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: rgba(255, 69, 58, 0.15);
+  border: 1px solid rgba(255, 69, 58, 0.3);
+  border-radius: 12px;
+  margin-top: 12px;
+  animation: fadeIn 0.3s ease;
+}
+
+.warning-icon {
   color: #ff6b6b;
-  font-size: 0.9rem;
-  margin-top: 8px;
-  text-align: center;
+  font-size: 1.2rem;
+}
+
+.warning-message {
+  color: #ff6b6b;
+  font-family: 'Guidy', sans-serif;
+  font-weight: 500;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 </style>

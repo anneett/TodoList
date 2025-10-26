@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import HeaderBar from './components/HeaderBar.vue'
 import FiltersBar from './components/FiltersBar.vue'
 import AddTask from './components/AddTask.vue'
@@ -10,8 +10,8 @@ import { useTodos } from './composables/useTodos.js'
 const { tasks, addTodo, removeTodo, toggleCompleteTodo, toggleFavouriteTodo, editTodo } = useTodos()
 const filter = ref('all')
 const showStats = ref(false)
+const isFloatingDropZoneVisible = ref(false)
 
-// Добавляем флаг isToday к каждой задаче
 tasks.value.forEach(task => {
   task.isToday = false
 })
@@ -28,6 +28,28 @@ const removeTask = (id) => {
 const toggleComplete = (id) => toggleCompleteTodo(id)
 const toggleFavorite = (id) => toggleFavouriteTodo(id)
 const editTask = (payload) => editTodo(payload)
+
+const updateTodayTasks = () => {
+  const now = new Date()
+  now.setHours(0, 0, 0, 0)
+  tasks.value.forEach(task => {
+    if (task.deadline) {
+      const deadlineDate = new Date(task.deadline)
+      deadlineDate.setHours(0, 0, 0, 0)
+      if (deadlineDate.getTime() === now.getTime() && !task.isToday) {
+        task.isToday = true
+      }
+    }
+  })
+}
+
+const clearTodayTasks = () => {
+  tasks.value.forEach(task => {
+    if (task.isToday) {
+      task.isToday = false
+    }
+  })
+}
 
 const filteredTasks = computed(() => {
   const now = Date.now()
@@ -51,9 +73,7 @@ function onDrop(event, targetList) {
   event.preventDefault()
   const taskId = event.dataTransfer.getData('taskId')
   const task = tasks.value.find(t => t.id === taskId)
-
   if (!task) return
-
   if (targetList === 'today') {
     task.isToday = true
   } else {
@@ -64,47 +84,67 @@ function onDrop(event, targetList) {
 function onDragOver(event) {
   event.preventDefault()
 }
+
+function checkScroll() {
+  const scrollPosition = window.scrollY
+  isFloatingDropZoneVisible.value = scrollPosition > 100
+}
+
+onMounted(() => {
+  window.addEventListener('scroll', checkScroll)
+  setTimeout(checkScroll, 100)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', checkScroll)
+})
 </script>
 
 <template>
   <div class="container">
     <HeaderBar />
     <FiltersBar v-model:filter="filter" />
-    <button @click="toggleStats" class="toggle-stats-btn">
-      {{ showStats ? 'Скрыть статистику' : 'Посмотреть статистику' }}
-    </button>
+
+    <div class="button-container">
+      <button @click="toggleStats" class="stats-btn">
+        {{ showStats ? 'Скрыть статистику' : 'Посмотреть статистику' }}
+      </button>
+
+      <div class="action-buttons">
+        <button @click="updateTodayTasks" class="update-btn">
+          Обновить
+        </button>
+        <button @click="clearTodayTasks" class="clear-btn">
+          Очистить
+        </button>
+      </div>
+    </div>
+
     <div v-if="showStats" class="stats-container">
       <ChartsPanel />
     </div>
-    <div class="drag-drop-section">
-      <div
-          class="drag-drop-container"
-          @drop="(e) => onDrop(e, 'today')"
-          @dragover="onDragOver"
-      >
-        <h3>Задания на сегодня</h3>
-        <div v-if="todayTasks.length === 0" class="drag-drop-area">
-          Перетащите сюда задачи на сегодня
-        </div>
-        <div v-else class="today-tasks-list">
-          <TodoItem
-              v-for="task in todayTasks"
-              :key="task.id"
-              :task="task"
-              @toggle-complete="toggleComplete"
-              @remove="removeTask"
-              @toggle-favorite="toggleFavorite"
-              @edit="editTask"
-          />
-        </div>
+
+    <div class="today-tasks-section">
+      <h3>Задания на сегодня</h3>
+      <div v-if="todayTasks.length === 0" class="empty-today">
+        Нет задач на сегодня
+      </div>
+      <div v-else class="today-tasks-list">
+        <TodoItem
+            v-for="task in todayTasks"
+            :key="task.id"
+            :task="task"
+            @toggle-complete="toggleComplete"
+            @remove="removeTask"
+            @toggle-favorite="toggleFavorite"
+            @edit="editTask"
+        />
       </div>
     </div>
+
     <AddTask @add="addTask" />
-    <div
-        class="main-tasks-container"
-        @drop="(e) => onDrop(e, 'main')"
-        @dragover="onDragOver"
-    >
+
+    <div class="main-tasks-container">
       <h3>Основные задачи</h3>
       <div v-if="filteredTasks.length === 0" class="empty">Нет задач</div>
       <div v-else class="tasks-list">
@@ -117,6 +157,17 @@ function onDragOver(event) {
             @toggle-favorite="toggleFavorite"
             @edit="editTask"
         />
+      </div>
+    </div>
+
+    <div
+        class="floating-drop-zone"
+        :class="{ 'visible': isFloatingDropZoneVisible }"
+        @drop="(e) => onDrop(e, 'today')"
+        @dragover="onDragOver"
+    >
+      <div class="drop-zone-content">
+        <span>Перетащите сюда задачи на сегодня</span>
       </div>
     </div>
   </div>
@@ -132,10 +183,19 @@ function onDragOver(event) {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  position: relative;
 }
 
-.toggle-stats-btn {
-  padding: 10px 15px;
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.stats-btn {
+  padding: 10px 16px;
   background: linear-gradient(90deg, #09bea9, #6bffd3);
   border: none;
   border-radius: 12px;
@@ -143,10 +203,33 @@ function onDragOver(event) {
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
-  align-self: flex-start;
 }
 
-.toggle-stats-btn:hover {
+.action-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.stats-btn, .update-btn, .clear-btn {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  height: 40px;
+}
+
+.update-btn {
+  background: linear-gradient(90deg, #5a7cff, #7c5cff);
+}
+
+.clear-btn {
+  background: linear-gradient(90deg, #ff6b6b, #ff8e53);
+}
+
+.stats-btn:hover, .update-btn:hover, .clear-btn:hover {
   transform: scale(1.05);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
 }
@@ -156,24 +239,20 @@ function onDragOver(event) {
   margin-bottom: 16px;
 }
 
-.drag-drop-section {
-  margin-bottom: 16px;
-}
-
-.drag-drop-container {
+.today-tasks-section {
   border: 2px dashed rgba(255, 255, 255, 0.3);
   border-radius: 12px;
   padding: 15px;
-  min-height: 100px;
+  margin-bottom: 16px;
 }
 
-.drag-drop-container h3 {
+.today-tasks-section h3 {
   margin-top: 0;
   margin-bottom: 10px;
   color: var(--text);
 }
 
-.drag-drop-area {
+.empty-today {
   color: rgba(255, 255, 255, 0.5);
   text-align: center;
   padding: 10px;
@@ -207,5 +286,33 @@ function onDragOver(event) {
   color: rgba(255, 255, 255, 0.5);
   text-align: center;
   padding: 10px;
+}
+
+.floating-drop-zone {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 48px);
+  max-width: 960px;
+  background: rgba(16, 34, 28, 0.95);
+  border: 2px dashed rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+  z-index: 100;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.floating-drop-zone.visible {
+  opacity: 1;
+}
+
+.drop-zone-content {
+  color: rgba(255, 255, 255, 0.7);
+  font-family: 'Guidy', sans-serif;
+  font-weight: 500;
 }
 </style>

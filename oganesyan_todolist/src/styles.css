@@ -7,8 +7,8 @@
 }
 
 @font-face {
-    font-family: 'AR_ZOZH';
-    src: url('./assets/fonts/AR_ZOZH.ttf') format('truetype');
+    font-family: 'Guidy';
+    src: url('./assets/fonts/SuboleyaRegular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
@@ -24,7 +24,7 @@ html, body, #app {
 }
 
 body {
-    font-family: 'AR_ZOZH', sans-serif;
+    font-family: 'Guidy', sans-serif;
     color: var(--text);
     background: linear-gradient(90deg, #6f4bff11, #a67bff11);
     -webkit-font-smoothing: antialiased;
