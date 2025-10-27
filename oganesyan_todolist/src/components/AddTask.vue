@@ -176,4 +176,24 @@ const limitYearInput = (event) => {
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+@media (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .deadline-row {
+    flex-direction: column;
+  }
+
+  .add-btn {
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  .task-input, .description-input, .deadline-input {
+    width: 100%;
+  }
+}
 </style>

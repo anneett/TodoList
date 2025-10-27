@@ -291,4 +291,18 @@ watch(tasks, async () => {
 .dot.overdue {
   background: #ff4141;
 }
+
+@media (max-width: 768px) {
+  .charts-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-card {
+    padding: 12px;
+  }
+
+  .bar-chart-container, .donut-chart-container {
+    height: 200px;
+  }
+}
 </style>

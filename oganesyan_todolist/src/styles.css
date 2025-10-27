@@ -4,6 +4,7 @@
     --accent1: #01a28a;
     --accent2: #57c5b2;
     --text: #f5f5ff;
+    --background: rgba(89, 159, 137, 0.68);
 }
 
 @font-face {
@@ -26,11 +27,15 @@ html, body, #app {
 body {
     font-family: 'Guidy', sans-serif;
     color: var(--text);
-    background: linear-gradient(90deg, #6f4bff11, #a67bff11);
+    background: var(--background);
+    background: rgba(89, 159, 137, 0.68);
     -webkit-font-smoothing: antialiased;
     display: flex;
     justify-content: center;
     align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
 }
 
 #app {
@@ -58,4 +63,19 @@ body {
     flex-direction: column;
     gap: 12px;
     margin-bottom: 16px;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    #app {
+        width: 100%;
+        padding: 12px;
+    }
+
+    .container {
+        padding: 16px;
+    }
 }

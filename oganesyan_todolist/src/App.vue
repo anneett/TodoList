@@ -327,4 +327,34 @@ h3 {
   font-family: var(--main-font);
   font-weight: 500;
 }
+
+@media (max-width: 768px) {
+  .container {
+    padding: 12px;
+  }
+
+  .button-container {
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+  }
+
+  .action-buttons {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .stats-btn, .update-btn, .clear-btn {
+    width: 100%;
+  }
+
+  .today-tasks-section, .main-tasks-container {
+    padding: 10px;
+  }
+
+  .floating-drop-zone {
+    top: 10px;
+    width: calc(100% - 24px);
+  }
+}
 </style>

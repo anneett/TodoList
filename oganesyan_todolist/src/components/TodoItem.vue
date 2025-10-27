@@ -238,4 +238,27 @@ function onDragStart(event) {
 .check {
   font-size: 16px;
 }
+
+@media (max-width: 768px) {
+  .todo-card {
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  .title-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .meta-item {
+    font-size: 0.8rem;
+  }
+}
 </style>

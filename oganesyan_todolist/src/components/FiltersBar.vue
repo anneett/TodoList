@@ -79,4 +79,11 @@ const tabs = computed(() => {
   font-weight: 400;
   font-family: 'Guidy', sans-serif;
 }
+
+@media (max-width: 480px) {
+  .tab {
+    padding: 5px 8px;
+    font-size: 0.8rem;
+  }
+}
 </style>
