@@ -101,7 +101,7 @@ function renderBar() {
         data: data.buckets,
         borderRadius: 8,
         barThickness: 18,
-        backgroundColor: data.buckets.map((v, i) => i === 0 ? '#ff6b6b' : 'rgba(124, 92, 255, 0.95)')
+        backgroundColor: data.buckets.map((v, i) => i === 0 ? '#ff4141' : 'rgb(41,185,66)')
       }]
     },
     options: {
@@ -157,7 +157,7 @@ function renderDonut() {
       labels: ['Выполнено', 'Активные', 'Просрочено'],
       datasets: [{
         data: [counts.value.done, counts.value.active, counts.value.overdue],
-        backgroundColor: ['#7c5cff', '#c9bdf7', '#ff6b6b'],
+        backgroundColor: ['#29b942', '#80abff', '#ff4141'],
         hoverOffset: 6,
         borderWidth: 0
       }]
@@ -224,7 +224,7 @@ watch(tasks, async () => {
 }
 
 .chart-card {
-  background: linear-gradient(180deg, #171427, #201737);
+  background: linear-gradient(180deg, #14271f, #173729);
   padding: 18px;
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.04);
@@ -238,7 +238,7 @@ watch(tasks, async () => {
   margin-top: 0;
   margin-bottom: 12px;
   font-family: 'Guidy', sans-serif;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
 }
 
 .bar-chart-container {
@@ -259,7 +259,7 @@ watch(tasks, async () => {
 .legend {
   margin: 12px 0 0 0;
   padding: 0;
-  font-size: 0.9rem;
+  font-size: 1.2rem;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -281,14 +281,14 @@ watch(tasks, async () => {
 }
 
 .dot.done {
-  background: #7c5cff;
+  background: #29b942;
 }
 
 .dot.active {
-  background: #c9bdf7;
+  background: #80abff;
 }
 
 .dot.overdue {
-  background: #ff6b6b;
+  background: #ff4141;
 }
 </style>

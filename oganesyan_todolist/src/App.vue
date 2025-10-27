@@ -174,6 +174,10 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
+:root {
+  --main-font: 'Guidy', sans-serif;
+}
+
 .container {
   width: 100%;
   background: linear-gradient(180deg, #0a221c, #132a21);
@@ -184,6 +188,7 @@ onUnmounted(() => {
   flex-direction: column;
   gap: 16px;
   position: relative;
+  font-family: var(--main-font);
 }
 
 .button-container {
@@ -196,7 +201,7 @@ onUnmounted(() => {
 
 .stats-btn {
   padding: 10px 16px;
-  background: linear-gradient(90deg, #09bea9, #6bffd3);
+  background: linear-gradient(90deg, #087557, #3c8c6a);
   border: none;
   border-radius: 12px;
   color: white;
@@ -215,18 +220,20 @@ onUnmounted(() => {
   border: none;
   border-radius: 12px;
   color: white;
-  font-weight: 600;
+  font-weight: 400;
   cursor: pointer;
   transition: all 0.2s ease;
   height: 40px;
+  font-family: var(--main-font);
+  font-weight: 500;
 }
 
 .update-btn {
-  background: linear-gradient(90deg, #5a7cff, #7c5cff);
+  background: linear-gradient(90deg, #15546b, #3c8aa4);
 }
 
 .clear-btn {
-  background: linear-gradient(90deg, #ff6b6b, #ff8e53);
+  background: linear-gradient(90deg, #ff4141, #ff5757);
 }
 
 .stats-btn:hover, .update-btn:hover, .clear-btn:hover {
@@ -313,6 +320,11 @@ onUnmounted(() => {
 .drop-zone-content {
   color: rgba(255, 255, 255, 0.7);
   font-family: 'Guidy', sans-serif;
+  font-weight: 500;
+}
+
+h3 {
+  font-family: var(--main-font);
   font-weight: 500;
 }
 </style>

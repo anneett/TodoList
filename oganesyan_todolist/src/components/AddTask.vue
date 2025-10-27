@@ -132,13 +132,13 @@ const limitYearInput = (event) => {
 }
 
 .add-btn {
-  background: linear-gradient(90deg, #09bea9, #6bffd3);
+  background: linear-gradient(90deg, #087557, #3c8c6a);
   border: none;
   padding: 12px 24px;
   border-radius: 12px;
   color: white;
   font-family: 'Guidy', sans-serif;
-  font-weight: 600;
+  font-weight: 400;
   cursor: pointer;
   transition: all 0.2s ease;
   white-space: nowrap;
@@ -162,7 +162,7 @@ const limitYearInput = (event) => {
 }
 
 .warning-icon {
-  color: #ff6b6b;
+  color: #3d1414;
   font-size: 1.2rem;
 }
 

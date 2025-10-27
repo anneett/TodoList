@@ -27,7 +27,7 @@ const doneCount = computed(() => tasks.value.filter(t => t.completed).length)
   display: flex;
   align-items: center;
   padding: 18px;
-  background: linear-gradient(180deg, #bbe0cf, #49f1c4);
+  background: linear-gradient(180deg, #3c8c6a, #087557);
   border-radius: 12px;
   margin-bottom: 16px;
 }
@@ -39,7 +39,7 @@ const doneCount = computed(() => tasks.value.filter(t => t.completed).length)
 }
 
 .icon {
-  font-size: 32px;
+  font-size: 40px;
 }
 
 .titles {
@@ -49,13 +49,15 @@ const doneCount = computed(() => tasks.value.filter(t => t.completed).length)
 
 h1 {
   margin: 0;
-  font-size: 1.3rem;
+  font-size: 1.8rem;
+  font-family: 'Guidy', sans-serif;
+  font-weight: 600;
 }
 
 .stats {
   display: flex;
   gap: 12px;
-  margin-top: 4px;
+  margin-top: 7px;
 }
 
 .stat {
@@ -63,10 +65,14 @@ h1 {
   border-radius: 12px;
   background: rgba(255,255,255,0.2);
   color: white;
-  font-weight: 600;
-  font-size: 0.9rem;
+  font-weight: 200;
+  font-size: 1.1rem;
+  font-family: 'Guidy', sans-serif;
+  font-weight: 500;
 }
 
-.stat.done { background: #079d7c }
-.stat.total { background: #6b5cff }
+.stat.done { background: #064b36
+}
+.stat.total { background: #064b36
+}
 </style>

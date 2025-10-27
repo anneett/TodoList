@@ -102,12 +102,13 @@ function onDragStart(event) {
   display: flex;
   gap: 12px;
   align-items: flex-start;
-  background: linear-gradient(180deg, #09e0ae, #09e0ae);
+  background: linear-gradient(180deg, #3dab88, #0b6c55);
   padding: 16px;
   border-radius: 12px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
   color: white;
   cursor: grab;
+  font-family: 'Guidy', sans-serif;
 }
 
 .todo-card:active {
@@ -127,6 +128,16 @@ function onDragStart(event) {
   background: transparent;
 }
 
+.left .check:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.todo-card.done .left .check {
+  background: rgba(130, 229, 194, 0.62);
+  border-color: rgba(189, 220, 202, 0.84);
+}
+
 .center {
   flex: 1;
 }
@@ -140,12 +151,14 @@ function onDragStart(event) {
 
 .title {
   margin: 0;
-  font-size: 1.1rem;
+  font-size: 1.4rem;
+  font-weight: 400;
+  font-family: 'Guidy', sans-serif;
 }
 
 .actions {
   display: flex;
-  gap: 8px;
+  gap: 1px;
 }
 
 .icon {
@@ -153,6 +166,7 @@ function onDragStart(event) {
   border: none;
   color: white;
   cursor: pointer;
+  font-size: 16px;
 }
 
 .delete {
@@ -168,18 +182,20 @@ function onDragStart(event) {
 }
 
 .meta-item {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.1);
   padding: 6px 10px;
   border-radius: 8px;
   font-size: 0.85rem;
+  font-family: 'Guidy', sans-serif;
 }
 
 .badge.overdue {
-  background: #6bffe4;
+  background: #184b31;
   padding: 6px 10px;
   border-radius: 8px;
   color: white;
-  font-weight: 700;
+  font-weight: 400;
+  font-family: 'Guidy', sans-serif;
 }
 
 .edit-panel {
@@ -195,6 +211,7 @@ function onDragStart(event) {
   border-radius: 8px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   width: 100%;
+  font-family: 'Guidy', sans-serif;
 }
 
 .edit-controls {
@@ -208,6 +225,7 @@ function onDragStart(event) {
   border: none;
   background: rgba(255, 255, 255, 0.14);
   color: white;
+  font-family: 'Guidy', sans-serif;
 }
 
 .warning {
@@ -215,5 +233,9 @@ function onDragStart(event) {
   font-size: 0.9rem;
   margin-top: 8px;
   text-align: center;
+}
+
+.check {
+  font-size: 16px;
 }
 </style>

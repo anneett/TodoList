@@ -62,18 +62,21 @@ const tabs = computed(() => {
   font-weight: 500;
   cursor: pointer;
   transition: 0.3s ease;
+  font-family: 'Guidy', sans-serif;
+  font-weight: 500;
 }
 .tab:hover {
   background: rgba(255, 255, 255, 0.15);
 }
 .tab.active {
-  background: linear-gradient(90deg,#079d7c, #28d3a0);
+  background: linear-gradient(90deg, #087557, #3c8c6a);
   color: white;
   box-shadow: 0 4px 10px rgba(0,0,0,0.2), 0 6px 20px rgba(0,0,0,0.2);
 }
 .count {
   opacity: 0.8;
   margin-left: 6px;
-  font-weight: 600;
+  font-weight: 400;
+  font-family: 'Guidy', sans-serif;
 }
 </style>
